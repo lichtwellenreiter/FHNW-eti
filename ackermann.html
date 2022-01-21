@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ackermann Funktion</title>
+    <style>
+        html, body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+        }
+
+        input {
+            width: 20px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield; /* Firefox */
+        }
+
+        #calculating {
+            margin-left: 10px;
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <span>a(</span>
+    <input type="number" id="x" value="0">
+    <span>,</span>
+    <input type="number" id="y" value="0">
+    <span>)</span>
+</div>
+<br/>
+<button id="calc">calc</button>
+<span id="calculating">calculating</span>
+<br/><br/><br/>
+
+<label for="result">Result</label><br/>
+<textarea id="result" rows="20" cols="50"></textarea>
+
+<script>
+    const rdiv = document.getElementById("result");
+    const x = document.getElementById("x");
+    const y = document.getElementById("y");
+    const calc = document.getElementById("calc");
+    const calculating = document.getElementById("calculating");
+    calc.addEventListener('click', _ => {
+        let ackermannWorker = new Worker('ackermann.js');
+        calculating.style.display = 'inline-block';
+        let xval = parseInt(x.value);
+        let yval = parseInt(y.value);
+        ackermannWorker.postMessage({x: xval, y: yval});
+        ackermannWorker.addEventListener('message', e => {
+           console.log(e);
+            rdiv.value = rdiv.value + e.data + "\n";
+            rdiv.scrollTop = rdiv.scrollHeight;
+        });
+        calculating.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

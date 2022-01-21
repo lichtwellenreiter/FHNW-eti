@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eti</title>
+</head>
+<body>
+
+<div>δ(T) = {</div>
+<label>
+
+  <textarea id="tm" style="margin-left: 30px;width:250px; height:200px;">((q1,1),(q3,0,R));
+((q3,0),(q1,1,L));
+((q3,1),(q2,0,R));
+((q3,_),(q3,0,L))</textarea>
+    }
+</label>
+
+
+<button id="btn">calc</button>
+
+<div style="font-size: 1.5em; margin-bottom:2em;margin-top:2em;">code(T) = <code id="cod<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>eti</title>
+    </head>
+    <body>
+
+    <div>δ(T) = {</div>
+    <label>
+
+  <textarea id="tm" style="margin-left: 30px;width:250px; height:200px;">((q1,1),(q3,0,R));
+((q3,0),(q1,1,L));
+((q3,1),(q2,0,R));
+((q3,_),(q3,0,L))</textarea>
+        }
+    </label>
+
+
+    <button id="btn">calc</button>
+
+    <div style="font-size: 1.5em; margin-bottom:2em;margin-top:2em;">code(T) = <code id="code"></code></div>
+
+
+    <div style="color:red" id="error"></div>
+
+    <div>Codierung mit Standart aus eti di Caro (Vorlesung 9, Folie 12)</div>
+
+
+    <script>
+
+        function strip(string) {
+            return string.replace(/^\s+|\s+$/g, '');
+        }
+
+        const btn = document.getElementById("btn");
+
+
+        btn.onclick = _ => {
+
+            let tm = document.getElementById("tm");
+            const c = document.getElementById("code");
+            const err = document.getElementById("error");
+
+            tm = tm.value.trim();
+
+            const transitions = tm.split(";");
+
+
+            let code = "";
+            let innerCode = "";
+
+
+
+            transitions.forEach((el, ex) => {
+
+                el = el.replace("((", "")
+                el = el.replace("))", "")
+
+                el = el.split("),(")
+
+                el.forEach((it, ix) => {
+                    it = it.split(",");
+                    it.forEach(e => {
+
+                        switch (strip(e).toLowerCase()) {
+                            case 'q1':
+                                innerCode += '0';
+                                break;
+                            case 'q2':
+                                innerCode += '00';
+                                break;
+                            case "q3":
+                                innerCode += '000';
+                                break;
+                            case "q4":
+                                innerCode += '0000';
+                                break;
+                            case "q5":
+                                innerCode += '00000 ';
+                                break;
+                            case "q6":
+                                innerCode += '000000';
+                                break;
+                            case '0':
+                                innerCode += '0';
+                                break;
+                            case '1':
+                                innerCode += '00';
+                                break;
+                            case 'l':
+                                innerCode += '0';
+                                break;
+                            case 'r':
+                                innerCode += '00';
+                                break;
+                            case 's':
+                                innerCode += '000';
+                                break;
+                            case '_':
+                                innerCode += '000';
+                                break;
+                            default:
+                                console.error("cannot read " + e);
+                                err.innerText = err.innerText + "Cannot Read: " + e + '\r';
+
+                        }
+
+                        innerCode += '1';
+
+
+                    });
+
+                });
+
+                if (ex < transitions.length - 1) {
+                    innerCode += '1';
+                } else {
+                    innerCode = innerCode.slice(0, innerCode.length - 1);
+                }
+
+                code = innerCode;
+                c.innerHTML = code;
+
+            });
+        }
+
+
+
+
+    </script>
+
+    </body>
+</html>e"></code></div>
+
+
+<div style="color:red" id="error"></div>
+
+<div>Codierung mit Standart aus eti di Caro (Vorlesung 9, Folie 12)</div>
+
+
+<script>
+
+    function strip(string) {
+        return string.replace(/^\s+|\s+$/g, '');
+    }
+
+    const btn = document.getElementById("btn");
+
+
+    btn.onclick = _ => {
+
+        let tm = document.getElementById("tm");
+        const c = document.getElementById("code");
+        const err = document.getElementById("error");
+
+        tm = tm.value.trim();
+
+        const transitions = tm.split(";");
+
+
+        let code = "";
+        let innerCode = "";
+
+
+
+        transitions.forEach((el, ex) => {
+
+            el = el.replace("((", "")
+            el = el.replace("))", "")
+
+            el = el.split("),(")
+
+            el.forEach((it, ix) => {
+                it = it.split(",");
+                it.forEach(e => {
+
+                    switch (strip(e).toLowerCase()) {
+                        case 'q1':
+                            innerCode += '0';
+                            break;
+                        case 'q2':
+                            innerCode += '00';
+                            break;
+                        case "q3":
+                            innerCode += '000';
+                            break;
+                        case "q4":
+                            innerCode += '0000';
+                            break;
+                        case "q5":
+                            innerCode += '00000 ';
+                            break;
+                        case "q6":
+                            innerCode += '000000';
+                            break;
+                        case '0':
+                            innerCode += '0';
+                            break;
+                        case '1':
+                            innerCode += '00';
+                            break;
+                        case 'l':
+                            innerCode += '0';
+                            break;
+                        case 'r':
+                            innerCode += '00';
+                            break;
+                        case 's':
+                            innerCode += '000';
+                            break;
+                        case '_':
+                            innerCode += '000';
+                            break;
+                        default:
+                            console.error("cannot read " + e);
+                            err.innerText = err.innerText + "Cannot Read: " + e + '\r';
+
+                    }
+
+                    innerCode += '1';
+
+
+                });
+
+            });
+
+            if (ex < transitions.length - 1) {
+                innerCode += '1';
+            } else {
+                innerCode = innerCode.slice(0, innerCode.length - 1);
+            }
+
+            code = innerCode;
+            c.innerHTML = code;
+
+        });
+    }
+
+
+
+
+</script>
+
+</body>
+</html>
